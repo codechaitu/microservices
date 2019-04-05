@@ -9,14 +9,14 @@ run:
 
 create:
 	GOOS=linux go build -o consignment-service
-	docker build -t gcr.io/kouzoh-p-codechaitu/basic-microservice:1a .
-	docker push gcr.io/kouzoh-p-codechaitu/basic-microservice:1a
-	export PROJECT_ID=kouzoh-p-codechaitu
+	docker build -t gcr.io/<account>/basic-microservice:1a .
+	docker push gcr.io/<account>/basic-microservice:1a
+	export PROJECT_ID=<account>
 	export CLUSTER=codechaitu-microservice
-	export ZONE=asia-northeast1-b
+	export ZONE=<zone>
 	export PORT=50051
-	gcloud container clusters get-credentials codechaitu-microservice --project kouzoh-p-codechaitu --zone asia-northeast1-b
-	kubectl run consignment-service --image gcr.io/kouzoh-p-codechaitu/basic-microservice:1a
+	gcloud container clusters get-credentials codechaitu-microservice --project <account> --zone asia-northeast1-b
+	kubectl run consignment-service --image gcr.io/k<account>/basic-microservice:1a
 	kubectl get deployments
 	kubectl get pods
 	kubectl expose deployment consignment-service --type LoadBalancer --port 50051 --target-port 50051
@@ -25,9 +25,9 @@ create:
 update:
 	VERSION="1a"
     GOOS=linux go build -o consignment-service
-    docker build -t gcr.io/kouzoh-p-codechaitu/basic-microservice:$VERSION .
-    docker push gcr.io/kouzoh-p-codechaitu/basic-microservice:$VERSION
-    kubectl set image deployments/chaitu-go-elasticsearch chaitu-go-elasticsearch=gcr.io/kouzoh-p-codechaitu/chaitu-go-elasticsearch:$VERSION
+    docker build -t gcr.io/<account>/basic-microservice:$VERSION .
+    docker push gcr.io/<account>/basic-microservice:$VERSION
+    kubectl set image deployments/chaitu-go-elasticsearch chaitu-go-elasticsearch=gcr.io/<account>/chaitu-go-elasticsearch:$VERSION
     kubectl get pods
     kubectl get deployments
-    kubectl set image deployments/chaitu-go-elasticsearch chaitu-go-elasticsearch=gcr.io/kouzoh-p-codechaitu/chaitu-go-elasticsearch:$VERSION
+    kubectl set image deployments/chaitu-go-elasticsearch chaitu-go-elasticsearch=gcr.io/<account>/chaitu-go-elasticsearch:$VERSION
